@@ -33,6 +33,7 @@ public final class TaskDescription {
     private Drawable mIcon; // application package icon
     private CharSequence mLabel; // application package label
     private boolean mLoaded;
+	private boolean running;
 
     public TaskDescription(int _taskId, int _persistentTaskId,
             ResolveInfo _resolveInfo, Intent _intent,
@@ -44,6 +45,7 @@ public final class TaskDescription {
 
         description = _description;
         packageName = _packageName;
+		running = (_taskId != -1);
     }
 
     public TaskDescription() {
@@ -54,6 +56,7 @@ public final class TaskDescription {
 
         description = null;
         packageName = null;
+		running = false;
     }
 
     public void setLoaded(boolean loaded) {
@@ -91,5 +94,13 @@ public final class TaskDescription {
 
     public Bitmap getThumbnail() {
         return mThumbnail;
+    }
+
+   	public boolean isRunning(){
+		return running;
+    }
+
+    public void setRunning(boolean _run){
+		running = _run;
     }
 }
