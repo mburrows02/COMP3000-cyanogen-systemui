@@ -713,29 +713,34 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
             return;
         }
         if (DEBUG) Log.v(TAG, "Jettison " + ad.getLabel());
-        mRecentTaskDescriptions.remove(ad);
-        mRecentTasksLoader.remove(ad);
 
-        // Handled by widget containers to enable LayoutTransitions properly
-        // mListAdapter.notifyDataSetChanged();
+        if (ad.isRunning()){
+			//TODO: Code for removing stoping a task from running
+		}
+		else {
+			mRecentTasksLoader.remove(ad);
 
-        if (mRecentTaskDescriptions.size() == 0) {
-            dismissAndGoBack();
-        }
+		    // Handled by widget containers to enable LayoutTransitions properly
+		    // mListAdapter.notifyDataSetChanged();
 
-        // Currently, either direction means the same thing, so ignore direction and remove
-        // the task.
-        final ActivityManager am = (ActivityManager)
-                mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        if (am != null) {
-            am.removeTask(ad.persistentTaskId, ActivityManager.REMOVE_TASK_KILL_PROCESS);
+		    if (mRecentTaskDescriptions.size() == 0) {
+		        dismissAndGoBack();
+		    }
 
-            // Accessibility feedback
-            setContentDescription(
-                    mContext.getString(R.string.accessibility_recents_item_dismissed, ad.getLabel()));
-            sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
-            setContentDescription(null);
-        }
+		    // Currently, either direction means the same thing, so ignore direction and remove
+		    // the task.
+		    final ActivityManager am = (ActivityManager)
+		            mContext.getSystemService(Context.ACTIVITY_SERVICE);
+		    if (am != null) {
+		        am.removeTask(ad.persistentTaskId, ActivityManager.REMOVE_TASK_KILL_PROCESS);
+
+		        // Accessibility feedback
+		        setContentDescription(
+		                mContext.getString(R.string.accessibility_recents_item_dismissed, ad.getLabel()));
+		        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
+		        setContentDescription(null);
+		    }
+		}
     }
 
     private void startApplicationDetailsActivity(String packageName) {
