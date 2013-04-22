@@ -179,7 +179,8 @@ public class RecentTasksLoader implements View.OnTouchListener {
                 TaskDescription item = new TaskDescription(taskId,
                         persistentTaskId, resolveInfo, baseIntent, info.packageName,
                         description);
-                item.setLabel(title);
+                if (taskId == -1) item.setLabel(title);
+                else item.setLabel(title + "!!");
 
                 return item;
             } else {
